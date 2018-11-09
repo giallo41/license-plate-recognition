@@ -15,8 +15,11 @@ license plate recognition project using DNN
 
 ##### Sample data images
 - plate number : [ 26 I 2485 ]
+
 ![sample data](./train-data-gen/images/00000000.png)
 <br>
+
 - Plate object position : (24	67)	(96	44)	(30	87)	(102	64)
+
 ![sample data](./train-data-gen/masks/00000000.png)
 <br>

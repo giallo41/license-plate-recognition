@@ -260,7 +260,7 @@ class BatchGenerator(Sequence):
         return [x_batch, b_batch], y_batch
 
     def on_epoch_end(self):
-        print ('on_epoch_end')
+#        print ('on_epoch_end')
         if self.shuffle: np.random.shuffle(self.images)
             
     def aug_image(self, train_instance, jitter):
@@ -315,9 +315,6 @@ true_boxes  = Input(shape=(1, 1, 1, TRUE_BOX_BUFFER , 4))
     
 def make_model():
     
-
-    #with tf.device("/gpu:0"):
-
     # Layer 1
     x = Conv2D(32, (3,3), strides=(1,1), padding='same', name='conv_1', use_bias=False)(input_image)
     x = BatchNormalization(name='norm_1')(x)

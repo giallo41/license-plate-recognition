@@ -18,6 +18,10 @@ license plate recognition project using DNN
 #### (2) Second Step
 - Training the generated data to detect 'plate'
 
+#### (3) Third Step (TBD)
+- highlight the detect place
+- then recognize the character (words and number)
+
 ###### Sample data images
 - plate number : [ 97 지 0912 , 09 가 9871 ]
 
@@ -26,10 +30,16 @@ license plate recognition project using DNN
 
 
 ### Model Training
-``` model_train.py ```
 
-Thanks to ( https://github.com/experiencor/keras-yolo2 )
+```  model_train.py  ```
 
+ Thanks to ( https://github.com/experiencor/keras-yolo2 )
+
+- [ Devised date - 06/12/18 ]
+- Detect the license plate
+- Anchor Adjustment to find the various ratio of plate
+- Successfully detect the plate in Test image (real world case )
+- However still can't detect the small plate -> to be adjusted anchor size
 
 
 ### Requirements

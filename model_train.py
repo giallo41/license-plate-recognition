@@ -5,7 +5,7 @@ from utils import *
 
 ###################################### 
 
-MODEL_NAME_ = 'yolo-test-v001'
+MODEL_NAME_ = 'yolo-test-v001_1206'
 NGPU = 4
 
 
@@ -21,7 +21,7 @@ CLASS            = len(LABELS)
 CLASS_WEIGHTS    = np.ones(CLASS, dtype='float32')
 OBJ_THRESHOLD    = 0.3#0.5
 NMS_THRESHOLD    = 0.3#0.45
-ANCHORS          = [0.815, 3.59 , 0.48, 2.52, 1.156, 7.018, 1.623, 6.812, 2.01, 8.065 ]
+ANCHORS          = [2.22, 1.2, 1.6, 0.8, 3.59, 0.815, 4.01, 2.2, 5.2, 3.1 ]
 
 NO_OBJECT_SCALE  = 1.0
 OBJECT_SCALE     = 5.0
@@ -191,7 +191,16 @@ class BatchGenerator(Sequence):
             # construct output from object's x, y, w, h
             true_box_index = 0
             
+            ori_img_w = 512
+            ori_img_h = 512
+            
             for obj in all_objs:
+                
+                obj['xmax'] = obj['xmax'] * (self.config['IMAGE_W']/ori_img_w)
+                obj['xmin'] = obj['xmin'] * (self.config['IMAGE_W']/ori_img_w)
+                obj['ymax'] = obj['ymax'] * (self.config['IMAGE_H']/ori_img_h)
+                obj['ymin'] = obj['ymin'] * (self.config['IMAGE_H']/ori_img_h)
+            
                 if obj['xmax'] > obj['xmin'] and obj['ymax'] > obj['ymin'] and obj['name'] in self.config['LABELS']:
                     center_x = .5*(obj['xmin'] + obj['xmax'])
                     center_x = center_x / (float(self.config['IMAGE_W']) / self.config['GRID_W'])
@@ -703,8 +712,8 @@ valid_batch = BatchGenerator(valid_imgs, generator_config, norm=normalize)
 
 
 early_stop = EarlyStopping(monitor='val_loss', 
-                           min_delta=0.001, 
-                           patience=3, 
+                           min_delta=0.0005, 
+                           patience=10, 
                            mode='min', 
                            verbose=1)
 
@@ -732,7 +741,7 @@ model.fit_generator(generator        = train_batch,
                 verbose          = 1,
                 validation_data  = valid_batch,
                 validation_steps = len(valid_batch),
-                callbacks        = [early_stop, checkpoint, tensorboard], 
+                callbacks        = [early_stop, tensorboard], #checkpoint, tensorboard], 
                 max_queue_size   = 3)
 
 

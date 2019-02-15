@@ -28,6 +28,9 @@ def save_img(filename, img):
     img2 = cv2.merge([b,g,r])
     cv2.imwrite(filename, np.ndarray.astype(img2, int))
 
+def new_branch_test():
+    return 0
+
 
 def open_label_file (file_name):
     try: 
